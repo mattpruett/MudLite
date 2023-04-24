@@ -1,5 +1,6 @@
 ﻿using MattPruett.MUDLite.Libraries;
 using System;
+using System.Collections;
 using System.Net;
 using System.Net.Sockets;
 
@@ -8,8 +9,14 @@ namespace MattPruett.MUDLite.System
     internal enum ClientStatus
     {
         Guest = 0,
-        Authenticating = 1,
-        LoggedIn = 2
+        CreatingUser,
+        CreatingUserName,
+        CreatingUserPassword,
+        ConfirmingUserPassword,
+        EnteringUserName,
+        EnteringUserPassword,
+        Authenticating,
+        LoggedIn
     }
 
     internal class Client
@@ -20,6 +27,8 @@ namespace MattPruett.MUDLite.System
         private ClientStatus _status;
         private string _receivedData;
 
+        public Hashtable State { get; set; }
+
         public Client(uint clientId, IPEndPoint remoteAddress)
         {
             _id = clientId;
@@ -27,6 +36,7 @@ namespace MattPruett.MUDLite.System
             _connectedAt = DateTime.Now;
             _status = ClientStatus.Guest;
             _receivedData = string.Empty;
+            State = new Hashtable();
         }
 
         #region Properties
@@ -43,7 +53,13 @@ namespace MattPruett.MUDLite.System
 
         public bool IsAuthenticating
         {
-            get { return _status == ClientStatus.Authenticating; }
+            get 
+            { 
+                return 
+                    _status == ClientStatus.CreatingUserPassword ||
+                    _status == ClientStatus.ConfirmingUserPassword ||
+                    _status == ClientStatus.EnteringUserPassword;
+            }
         }
 
         public bool IsLoggedIn
@@ -96,14 +112,25 @@ namespace MattPruett.MUDLite.System
             _receivedData = string.Empty;
         }
 
-        public void Send(string message)
+        public void Send(params string[] messages)
         {
-            Globals.Server.SendMessage(this, message);
+            Globals.Server.SendMessage(this, messages);
+        }
+
+        public void SendLine(string message)
+        {
+            Globals.Server.SendMessage(this, message + Constants.END_LINE);
         }
 
         public override string ToString()
         {
             return $"Client #{_id} (From: {_remoteAddr.Address}:{_remoteAddr.Port}, Status: {_status}, Connection time: {_connectedAt})";
         }
+    }
+
+    internal static class StateKeys
+    {
+        internal const string UserName = "UserName";
+        internal const string UserPassword = "UserPassword";
     }
 }

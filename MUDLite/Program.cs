@@ -15,13 +15,13 @@ namespace MUDLite
         static void Main(string[] args)
         {
             Globals.Server = new Server(IPAddress.Any);
-            Globals.Server.ClientConnected += clientConnected;
-            Globals.Server.ClientDisconnected += clientDisconnected;
-            Globals.Server.ConnectionBlocked += connectionBlocked;
-            Globals.Server.MessageReceived += messageReceived;
+            Globals.Server.ClientConnected += ClientConnected;
+            Globals.Server.ClientDisconnected += ClientDisconnected;
+            Globals.Server.ConnectionBlocked += ConnectionBlocked;
+            Globals.Server.MessageReceived += MessageReceived;
             Globals.Server.Start();
 
-            Console.WriteLine("SERVER STARTED: " + DateTime.Now);
+            Console.WriteLine($"SERVER STARTED at {DateTime.Now} on port {Globals.Server.Port}");
 
             char read = Console.ReadKey(true).KeyChar;
 
@@ -37,28 +37,29 @@ namespace MUDLite
             Globals.Server.Stop();
         }
 
-        private static void clientConnected(Client client)
+        #region Events
+        private static void ClientConnected(Client client)
         {
             Console.WriteLine("CONNECTED: " + client);
-            Globals.Server.SendMessage(client, Constants.Title);
-            Globals.Server.SendMessage(client, Constants.END_LINE + "Login: ");
+            Globals.Server.SendMessage(client, Constants.Title, Constants.END_LINE);
+            UserManagement.SendWelcomeMessage(client);
         }
 
-        private static void clientDisconnected(Client client)
+        private static void ClientDisconnected(Client client)
         {
             Console.WriteLine("DISCONNECTED: " + client);
         }
 
-        private static void connectionBlocked(IPEndPoint ep)
+        private static void ConnectionBlocked(IPEndPoint ep)
         {
             Console.WriteLine(string.Format("BLOCKED: {0}:{1} at {2}", ep.Address, ep.Port, DateTime.Now));
         }
 
-        private static void messageReceived(Client client, string message)
+        private static void MessageReceived(Client client, string message)
         {
             if (!client.IsLoggedIn)
             {
-                handleLogin(client, message);
+                UserManagement.HandleLogin(client, message);
                 return;
             }
 
@@ -76,37 +77,11 @@ namespace MUDLite
                 Globals.Server.ClearClientScreen(client);
                 Globals.Server.SendMessage(client, Constants.CURSOR);
             }
-
             else
-                Globals.Server.SendMessage(client, Constants.END_LINE + Constants.CURSOR);
-        }
-
-        private static void handleLogin(Client client, string message)
-        {
-            switch (client.Status)
             {
-                case ClientStatus.Guest:
-                    if (message == "root")
-                    {
-                        Globals.Server.SendMessage(client, Constants.END_LINE + "Password: ");
-                        client.Status = ClientStatus.Authenticating;
-                    }
-
-                    else
-                        Globals.Server.KickClient(client);
-                    break;
-                case ClientStatus.Authenticating:
-                    if (message == "r00t")
-                    {
-                        Globals.Server.ClearClientScreen(client);
-                        Globals.Server.SendMessage(client, "Successfully authenticated." + Constants.END_LINE + Constants.CURSOR);
-                        client.Status = ClientStatus.LoggedIn;
-                    }
-
-                    else
-                        Globals.Server.KickClient(client);
-                    break;
+                Globals.Server.SendMessage(client, Constants.END_LINE + Constants.CURSOR);
             }
         }
+        #endregion
     }
 }

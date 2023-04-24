@@ -44,6 +44,11 @@ namespace MattPruett.MUDLite.System
             get { return _acceptIncomingConnections; }
         }
 
+        public int Port
+        {
+            get { return PORT; }
+        }
+
         public void DenyIncomingConnections()
         {
             _acceptIncomingConnections = false;
@@ -209,8 +214,10 @@ namespace MattPruett.MUDLite.System
                     clientSocket.BeginReceive(_data, 0, _dataSize, SocketFlags.None, new AsyncCallback(ReceiveData), clientSocket);
                 }
             }
-
-            catch { }
+            catch
+            {
+                // Om nom nom nom.
+            }
         }
 
         public void Remove(Socket socket)
@@ -240,15 +247,30 @@ namespace MattPruett.MUDLite.System
             catch { }
         }
 
-        public void SendMessage(Client client, string message)
+        public void SendLine(Client client, params string[] messages)
         {
-            Socket clientSocket = GetSocketByClient(client);
-            SendMessage(clientSocket, message);
+            if (messages.Length > 0)
+            {
+                messages[messages.Length-1] += Constants.END_LINE;
+                var clientSocket = GetSocketByClient(client);
+                SendMessage(clientSocket, messages);
+            }
         }
-        private void SendMessage(Socket socket, string message)
+
+        public void SendMessage(Client client, params string[] messages)
         {
-            byte[] data = Encoding.ASCII.GetBytes(message);
-            SendBytes(socket, data);
+            var clientSocket = GetSocketByClient(client);
+            SendMessage(clientSocket, messages);
+        }
+
+        private void SendMessage(Socket socket, params string[] messages)
+        {
+            byte[] data;
+            foreach (var message in messages)
+            {
+                data = Encoding.ASCII.GetBytes(message);
+                SendBytes(socket, data);
+            }
         }
 
         public void Start()
