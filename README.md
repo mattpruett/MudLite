@@ -12,4 +12,4 @@ For the moment, this project is not complete. There is much to do.
 - Scripting engine (Optional)
 
 # Tech Stack and tools
-C#, Visual Studio, Sqlite, Entity Framework, .NET Framework 4.7.2
+C#, Visual Studio, Sqlite, Entity Framework, .NET Framework 4.7.2, github, github desktop
