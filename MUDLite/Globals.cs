@@ -1,14 +1,12 @@
-﻿using MattPruett.MUDLite.System;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MattPruett.MUDLite.Libraries;
+using MattPruett.MUDLite.System;
 
 namespace MattPruett.MUDLite
 {
     public static class Globals
     {
         internal static Server Server { get; set; }
+
+        internal static StringHasher Hasher { get; set; } = new StringHasher();
     }
 }
