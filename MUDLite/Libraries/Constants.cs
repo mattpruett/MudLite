@@ -13,7 +13,7 @@
 
         // TODO: Make this path relative
         public const string DataLocation = @"C:\Users\kaoso\Documents\GitHub\MUDLite\MUDLite\Data";
-        public const string DatabaseName = "SQLLiteEFTest.db";
+        public const string DatabaseName = "MUDLite.db";
         // TODO: and add db file to publish profile so it's placed in the bin folder.
         public const string Database = DataLocation + "\\" + DatabaseName;
     }
