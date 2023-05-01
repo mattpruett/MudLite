@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Data\DataHelpers.cs" />
     <Compile Include="Data\DataModel\Models\Creatures.cs" />
+    <Compile Include="Data\DataModel\Models\PlayerCharacters.cs" />
     <Compile Include="Data\DataModel\Models\Rooms.cs" />
     <Compile Include="Data\DataModel\Models\Users.cs" />
     <Compile Include="Data\DataModel\MudLiteDataModel.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="GameObjects\Base\NamedObject.cs" />
     <Compile Include="GameObjects\World\Room.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="Libraries\CharacterCreation.cs" />
     <Compile Include="Libraries\ClassExtensions.cs" />
     <Compile Include="Libraries\Constants.cs" />
     <Compile Include="Libraries\Crypto.cs" />

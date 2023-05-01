@@ -15,24 +15,31 @@ namespace MattPruett.MUDLite.Libraries
 
             using (var db = new MUDLiteDataContext())
             {
-                return (from usr in db.Users
-                        where usr.Name == userName
-                           && usr.Password == password
-                        select true).Any();
+                var user = (
+                    from usr in db.Users
+                    where usr.Name == userName
+                       && usr.Password == password
+                    select usr).FirstOrDefault();
+
+                client.User = user;
+                return user != null;
             }
         }
 
-        public static void CreateUser(string userName, string password)
+        public static Data.DataModel.Models.User CreateUser(string userName, string password)
         {
             using (var db = new MUDLiteDataContext())
             {
-                db.Users.Add(new Data.DataModel.Models.User
+                var user = new Data.DataModel.Models.User
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = userName,
                     Password = password
-                });
+                };
+                db.Users.Add(user);
                 db.SaveChanges();
+
+                return user;
             }
         }
 
@@ -48,10 +55,6 @@ namespace MattPruett.MUDLite.Libraries
             switch (client.Status)
             {
                 case ClientStatus.CreatingUser:
-                    SendWelcomeMessage(client);
-                    client.Status = ClientStatus.Guest;
-                    break;
-
                 case ClientStatus.Guest:
                     HandleUserGuestEntry(client, words);
                     break;
@@ -65,6 +68,11 @@ namespace MattPruett.MUDLite.Libraries
                 case ClientStatus.CreatingUserPassword:
                 case ClientStatus.ConfirmingUserPassword:
                     HandleUserPasswordEntry(client, words);
+                    break;
+
+                // Assume character creation
+                default:
+                    CharacterCreation.HandleCharacterCreationManagement(client, message);
                     break;
             }
         }
@@ -163,10 +171,10 @@ namespace MattPruett.MUDLite.Libraries
                     var prevPassword = client.State[StateKeys.UserPassword].ToString();
                     if (!UserNameAlreadyExists(userName) && prevPassword == hashedPassword)
                     {
-                        CreateUser(userName, hashedPassword);
+                        client.User = CreateUser(userName, hashedPassword);
 
-                        client.Send("User successfully created. Welcome", userName, ".", Constants.END_LINE, Constants.CURSOR);
-                        client.Status = ClientStatus.LoggedIn;
+                        client.Send("User successfully created. Welcome", userName, ".", Constants.END_LINE, "Please enter a character name: ");
+                        client.Status = ClientStatus.CreatingCharacterName;
                     }
                     else
                     {
@@ -194,8 +202,8 @@ namespace MattPruett.MUDLite.Libraries
             if (AuthenticateCredentials(client))
             {
                 Globals.Server.ClearClientScreen(client);
-                client.Send("Successfully authenticated.", Constants.END_LINE, Constants.CURSOR);
-                client.Status = ClientStatus.LoggedIn;
+                client.Send("Successfully authenticated.");
+                CharacterCreation.GoBackToCharacterSelection(client);
             }
             else
             {
@@ -217,7 +225,7 @@ namespace MattPruett.MUDLite.Libraries
                                   select true).Any();
                     return exists;
                 }
-                catch(Exception ex)
+                catch
                 {
                     // Om nom nom nom.
                     return false;

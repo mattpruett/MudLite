@@ -1,4 +1,5 @@
-﻿using MattPruett.MUDLite.Libraries;
+﻿using MattPruett.MUDLite.Data.DataModel.Models;
+using MattPruett.MUDLite.Libraries;
 using System;
 using System.Collections;
 using System.Net;
@@ -16,7 +17,10 @@ namespace MattPruett.MUDLite.System
         EnteringUserName,
         EnteringUserPassword,
         Authenticating,
-        LoggedIn
+        CreatingCharacterName,
+        ConfirmingCharacter,
+        SelectingCharacter,
+        LoggedIn,
     }
 
     internal class Client
@@ -28,6 +32,14 @@ namespace MattPruett.MUDLite.System
         private string _receivedData;
 
         public Hashtable State { get; set; }
+        public User User { get; set; }
+        public Creature Character
+        {
+            get
+            {
+                return User?.Character;
+            }
+        }
 
         public Client(uint clientId, IPEndPoint remoteAddress)
         {
