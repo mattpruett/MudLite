@@ -31,10 +31,13 @@ namespace MattPruett.MUDLite.Libraries
             using (var db = new MUDLiteDataContext())
             {
                 var characters = client.User.Characters;
-
                 foreach (var character in characters)
                 {
                     client.Send(Constants.END_LINE, "\t", character.Name);
+                }
+                if (characters.Count > 0)
+                {
+                    client.Send(Constants.END_LINE);
                 }
             }
         }
@@ -146,7 +149,7 @@ namespace MattPruett.MUDLite.Libraries
             var character = client.User.Character;
             if (character != null)
             {
-                client.Send(Constants.END_LINE, "You are now playing as \"", character.Name, "\". Welcome!");
+                client.Send(Constants.END_LINE, "You are now playing as \"", character.Name, "\". Welcome!", Constants.END_LINE);
                 client.Status = ClientStatus.LoggedIn;
             }
         }
