@@ -30,6 +30,7 @@ namespace MattPruett.MUDLite.Data
         public virtual DbSet<DataModel.Models.Creature> Creatures { get; set; }
         public virtual DbSet<DataModel.Models.User> Users { get; set; }
         public virtual DbSet<DataModel.Models.PlayerCharacter> PlayerCharacters { get; set; }
-        
+        public virtual DbSet<DataModel.Models.RoomExit> RoomExits { get; set; }
+
     }
 }

@@ -22,6 +22,9 @@ namespace MUDLite
             Globals.Server.Start();
 
             Console.WriteLine($"SERVER STARTED at {DateTime.Now} on port {Globals.Server.Port}");
+            Console.WriteLine("Loading world...");
+            Globals.LoadWorld();
+            Console.WriteLine("World Loaded");
 
             char read = Console.ReadKey(true).KeyChar;
 
