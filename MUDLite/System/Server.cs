@@ -214,9 +214,9 @@ namespace MattPruett.MUDLite.System
                     clientSocket.BeginReceive(_data, 0, _dataSize, SocketFlags.None, new AsyncCallback(ReceiveData), clientSocket);
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                // Om nom nom nom.
+                Console.WriteLine($"{ex}: {ex.Message}");
             }
         }
 
@@ -230,7 +230,10 @@ namespace MattPruett.MUDLite.System
 
         public void SendBytes(Socket socket, byte[] data)
         {
-            socket.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback(SendData), socket);
+            if (socket != null)
+            {
+                socket.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback(SendData), socket);
+            }
         }
 
         private void SendData(IAsyncResult result)

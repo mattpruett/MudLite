@@ -6,7 +6,7 @@ using System.Linq;
 namespace MattPruett.MUDLite.Data.DataModel.Models
 {
     [Table("Tbl_Rooms")]
-    public class Room
+    public class Tbl_Room
     {
         [Column("RM_Key", TypeName = "INTEGER")]
         [Key]

@@ -1,4 +1,5 @@
 ﻿using MattPruett.MUDLite.Data;
+using MattPruett.MUDLite.GameObjects;
 using MattPruett.MUDLite.System;
 using System;
 using System.Collections.Generic;
@@ -21,16 +22,17 @@ namespace MattPruett.MUDLite.Libraries
                        && usr.Password == password
                     select usr).FirstOrDefault();
 
-                client.User = user;
-                return user != null;
+                client.User = user == null ? null : new User(user);
+                client.User?.SetClient(client);
+                return client.User != null;
             }
         }
 
-        public static Data.DataModel.Models.User CreateUser(string userName, string password)
+        public static Data.DataModel.Models.Tbl_User CreateUser(string userName, string password)
         {
             using (var db = new MUDLiteDataContext())
             {
-                var user = new Data.DataModel.Models.User
+                var user = new Data.DataModel.Models.Tbl_User
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = userName,
@@ -171,7 +173,7 @@ namespace MattPruett.MUDLite.Libraries
                     var prevPassword = client.State[StateKeys.UserPassword].ToString();
                     if (!UserNameAlreadyExists(userName) && prevPassword == hashedPassword)
                     {
-                        client.User = CreateUser(userName, hashedPassword);
+                        client.User = new User(CreateUser(userName, hashedPassword));
 
                         client.Send("User successfully created. Welcome", userName, ".", Constants.END_LINE, "Please enter a character name: ");
                         client.Status = ClientStatus.CreatingCharacterName;

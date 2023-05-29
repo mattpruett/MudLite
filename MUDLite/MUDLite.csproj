@@ -65,14 +65,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DataHelpers.cs" />
-    <Compile Include="Data\DataModel\Models\Creatures.cs" />
-    <Compile Include="Data\DataModel\Models\PlayerCharacters.cs" />
-    <Compile Include="Data\DataModel\Models\Rooms.cs" />
-    <Compile Include="Data\DataModel\Models\Users.cs" />
+    <Compile Include="Data\DataModel\Models\Tbl_Creatures.cs" />
+    <Compile Include="Data\DataModel\Models\Tbl_PlayerCharacters.cs" />
+    <Compile Include="Data\DataModel\Models\Tbl_Rooms.cs" />
+    <Compile Include="Data\DataModel\Models\Tbl_Users.cs" />
     <Compile Include="Data\DataModel\MudLiteDataModel.cs" />
     <Compile Include="Data\SQLiteConfiguration.cs" />
     <Compile Include="GameObjects\Base\Creature.cs" />
     <Compile Include="GameObjects\Base\NamedObject.cs" />
+    <Compile Include="GameObjects\PlayerCharacter.cs" />
+    <Compile Include="GameObjects\User.cs" />
     <Compile Include="GameObjects\World\Room.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Libraries\CharacterCreation.cs" />

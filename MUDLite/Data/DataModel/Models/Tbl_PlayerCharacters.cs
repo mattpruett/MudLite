@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace MattPruett.MUDLite.Data.DataModel.Models
 {
     [Table("Tbl_PlayerCharacters")]
-    public class PlayerCharacter
+    public class Tbl_PlayerCharacter
     {
         [Column("PC_Key", TypeName = "INTEGER")]
         [Key]

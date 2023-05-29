@@ -26,10 +26,10 @@ namespace MattPruett.MUDLite.Data
         }
 
         // Since there can be class name clash, I will qualify the type with the namespace.
-        public virtual DbSet<DataModel.Models.Room> Rooms { get; set; }
-        public virtual DbSet<DataModel.Models.Creature> Creatures { get; set; }
-        public virtual DbSet<DataModel.Models.User> Users { get; set; }
-        public virtual DbSet<DataModel.Models.PlayerCharacter> PlayerCharacters { get; set; }
+        public virtual DbSet<DataModel.Models.Tbl_Room> Rooms { get; set; }
+        public virtual DbSet<DataModel.Models.Tbl_Creature> Creatures { get; set; }
+        public virtual DbSet<DataModel.Models.Tbl_User> Users { get; set; }
+        public virtual DbSet<DataModel.Models.Tbl_PlayerCharacter> PlayerCharacters { get; set; }
         public virtual DbSet<DataModel.Models.RoomExit> RoomExits { get; set; }
 
     }

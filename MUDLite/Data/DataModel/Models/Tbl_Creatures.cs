@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace MattPruett.MUDLite.Data.DataModel.Models
 {
     [Table("Tbl_Creatures")]
-    public class Creature
+    public class Tbl_Creature
     {
         [Column("CR_Key", TypeName = "INTEGER")]
         [Key]
@@ -28,5 +28,8 @@ namespace MattPruett.MUDLite.Data.DataModel.Models
 
         [Column("CR_Evasion", TypeName = "INTEGER")]
         public int Evasion { get; set; }
+
+        [Column("CR_Room", TypeName = "INTEGER")]
+        public int? RM_Key { get; set; }
     }
 }

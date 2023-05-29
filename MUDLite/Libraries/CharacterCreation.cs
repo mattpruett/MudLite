@@ -151,6 +151,7 @@ namespace MattPruett.MUDLite.Libraries
             {
                 client.Send(Constants.END_LINE, "You are now playing as \"", character.Name, "\". Welcome!", Constants.END_LINE);
                 client.Status = ClientStatus.LoggedIn;
+                client.User.ShowRoom();
             }
         }
     }

@@ -9,7 +9,7 @@ using System.ComponentModel;
 namespace MattPruett.MUDLite.Data.DataModel.Models
 {
     [Table("Tbl_Users")]
-    public class User
+    public class Tbl_User
     {
         [Column("US_Id", TypeName = "VARCHAR")]
         [Key]
@@ -39,10 +39,10 @@ namespace MattPruett.MUDLite.Data.DataModel.Models
         }
 
         [NotMapped]
-        public Creature Character { get; set; }
+        public Tbl_Creature Character { get; set; }
 
         [NotMapped]
-        public List<Creature> Characters
+        public List<Tbl_Creature> Characters
         {
             get
             {
@@ -59,7 +59,7 @@ namespace MattPruett.MUDLite.Data.DataModel.Models
             }
         }
 
-        public Creature CharacterByName(string name)
+        public Tbl_Creature CharacterByName(string name)
         {
             using (var db = new MUDLiteDataContext())
             {
@@ -77,19 +77,20 @@ namespace MattPruett.MUDLite.Data.DataModel.Models
         {
             using(var db = new MUDLiteDataContext())
             {
-                var creature = new Creature
+                var creature = new Tbl_Creature
                 {
                     Name = name,
                     Attack = 1,
                     Defense = 1,
                     Description = "This character is a total n00b.",
                     Evasion = 1,
-                    Health = 10
+                    Health = 10,
+                    RM_Key = 1
                 };
                 db.Creatures.Add(creature);
                 db.SaveChanges();
 
-                db.PlayerCharacters.Add(new PlayerCharacter { PC_CR_Key = creature.Key, PC_US_Id = Id });
+                db.PlayerCharacters.Add(new Tbl_PlayerCharacter { PC_CR_Key = creature.Key, PC_US_Id = Id });
                 db.SaveChanges();
 
                 this.Character = creature;

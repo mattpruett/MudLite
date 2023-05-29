@@ -1,4 +1,5 @@
-﻿using MattPruett.MUDLite.Data.DataModel.Models;
+﻿using MattPruett.MUDLite.GameObjects;
+using MattPruett.MUDLite.GameObjects.Base;
 using MattPruett.MUDLite.Libraries;
 using System;
 using System.Collections;
@@ -33,7 +34,7 @@ namespace MattPruett.MUDLite.System
 
         public Hashtable State { get; set; }
         public User User { get; set; }
-        public Creature Character
+        public PlayerCharacter Character
         {
             get
             {

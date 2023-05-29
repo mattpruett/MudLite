@@ -12,7 +12,7 @@ namespace MattPruett.MUDLite
 
         internal static StringHasher Hasher { get; set; } = new StringHasher();
 
-        internal static Dictionary<int, Data.DataModel.Models.Room> WorldMap;
+        internal static Dictionary<int, Data.DataModel.Models.Tbl_Room> WorldMap;
 
         internal static void LoadWorld()
         {
