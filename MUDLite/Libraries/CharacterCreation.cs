@@ -1,5 +1,6 @@
 ﻿using MattPruett.MUDLite.Data;
 using MattPruett.MUDLite.System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace MattPruett.MUDLite.Libraries
@@ -64,6 +65,7 @@ namespace MattPruett.MUDLite.Libraries
                 if (character != null)
                 {
                     client.User.Character = character;
+                    client.User.Character.LoadAddtionalDetails();
                     ProceedWithLogin(client);
                 }
                 else

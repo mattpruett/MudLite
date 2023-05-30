@@ -14,16 +14,27 @@ namespace MattPruett.MUDLite.GameObjects
 
         public PlayerCharacter(Tbl_Creature creature) : base(creature)
         {
+            LoadAddtionalDetails();
+        }
+
+        public void LoadAddtionalDetails()
+        {
             LoadRoom();
         }
 
         private Room _room;
 
-        public Room Room { get; set; }
+        public Room Room
+        {
+            get
+            {
+                return _room;
+            }
+        }
 
         private void LoadRoom()
         {
-            if (RM_Key != null || _room.Key != RM_Key)
+            if (RM_Key != null || (_room?.Key ?? -1) != RM_Key)
             {
                 _room = Room.GetRoom(RM_Key ?? 0);
             }

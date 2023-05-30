@@ -1,4 +1,5 @@
 ﻿using MattPruett.MUDLite.Data;
+using MattPruett.MUDLite.GameObjects.World;
 using MattPruett.MUDLite.Libraries;
 using MattPruett.MUDLite.System;
 using System.Collections.Generic;
@@ -12,15 +13,20 @@ namespace MattPruett.MUDLite
 
         internal static StringHasher Hasher { get; set; } = new StringHasher();
 
-        internal static Dictionary<int, Data.DataModel.Models.Tbl_Room> WorldMap;
+        internal static Dictionary<int, Room> WorldMap;
 
         internal static void LoadWorld()
         {
             using (var db = new MUDLiteDataContext()) 
             {
-                WorldMap = (from room in db.Rooms
-                        select room)
-                        .ToDictionary(room => room.Key, room => room);
+                WorldMap = (
+                from room in db.Rooms
+                select room
+                )
+                .ToDictionary(
+                    room => room.Key,
+                    room => new Room(room)
+                );
             }
         }
     }

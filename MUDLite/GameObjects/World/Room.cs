@@ -23,15 +23,7 @@ namespace MattPruett.MUDLite.GameObjects.World
 
         public static Room GetRoom(int key)
         {
-            using (var db = new MUDLiteDataContext())
-            {
-                var room = (from rm in db.Rooms
-                        where rm.Key == key
-                        select rm).FirstOrDefault();
-
-                return room == null ? null : new Room(room);
-            }
-
+            return Globals.WorldMap[key];
         }
 
         public override string ToString()
