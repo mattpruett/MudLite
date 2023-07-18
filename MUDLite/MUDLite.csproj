@@ -73,6 +73,8 @@
     <Compile Include="Data\SQLiteConfiguration.cs" />
     <Compile Include="GameObjects\Base\Creature.cs" />
     <Compile Include="GameObjects\Base\NamedObject.cs" />
+    <Compile Include="GameObjects\Commands\Look.cs" />
+    <Compile Include="GameObjects\ICommand.cs" />
     <Compile Include="GameObjects\PlayerCharacter.cs" />
     <Compile Include="GameObjects\User.cs" />
     <Compile Include="GameObjects\World\Room.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="Libraries\ClassExtensions.cs" />
     <Compile Include="Libraries\Constants.cs" />
     <Compile Include="Libraries\Crypto.cs" />
+    <Compile Include="Libraries\Enumerations.cs" />
     <Compile Include="Libraries\StringHasher.cs" />
     <Compile Include="Libraries\UserManagement.cs" />
     <Compile Include="Program.cs" />

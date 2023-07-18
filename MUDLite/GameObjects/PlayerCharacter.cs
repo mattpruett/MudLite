@@ -1,6 +1,7 @@
 ﻿using MattPruett.MUDLite.Data.DataModel.Models;
 using MattPruett.MUDLite.GameObjects.Base;
 using MattPruett.MUDLite.GameObjects.World;
+using MattPruett.MUDLite.Libraries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +12,24 @@ namespace MattPruett.MUDLite.GameObjects
 {
     internal class PlayerCharacter : Creature
     {
+        public Role Role { get; set; }
+        public List<ICommand> Commands { get; set; }
 
-        public PlayerCharacter(Tbl_Creature creature) : base(creature)
+        public PlayerCharacter(PlayerCharacterModel pc) : base(pc.Character)
         {
+            Role = (Role)pc.Role.RL_Key;
             LoadAddtionalDetails();
         }
 
         public void LoadAddtionalDetails()
         {
             LoadRoom();
+            LoadCommands();
+        }
+
+        private void LoadCommands()
+        {
+            
         }
 
         private Room _room;

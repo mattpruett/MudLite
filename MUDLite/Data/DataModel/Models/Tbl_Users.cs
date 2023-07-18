@@ -2,9 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
-using MattPruett.MUDLite.Libraries;
-using MattPruett.MUDLite.System;
-using System.ComponentModel;
 
 namespace MattPruett.MUDLite.Data.DataModel.Models
 {
@@ -42,7 +39,7 @@ namespace MattPruett.MUDLite.Data.DataModel.Models
         public Tbl_Creature Character { get; set; }
 
         [NotMapped]
-        public List<Tbl_Creature> Characters
+        public List<PlayerCharacterModel> Characters
         {
             get
             {
@@ -51,9 +48,14 @@ namespace MattPruett.MUDLite.Data.DataModel.Models
                     return (
                         from chars in db.Creatures
                         join pcs in db.PlayerCharacters on chars.Key equals pcs.PC_CR_Key
+                        join role in db.Roles on pcs.PC_RL_Key equals role.RL_Key
                         where pcs.PC_US_Id == Id
                         orderby chars.Name
-                        select chars
+                        select new PlayerCharacterModel
+                        {
+                            Character = chars,
+                            Role = role
+                        }
                     ).ToList();
                 }
             }
@@ -96,5 +98,11 @@ namespace MattPruett.MUDLite.Data.DataModel.Models
                 this.Character = creature;
             }
         }
+    }
+
+    public class PlayerCharacterModel
+    {
+        public Tbl_Creature Character { get; set; }
+        public Tbl_Role Role { get; set; }
     }
 }

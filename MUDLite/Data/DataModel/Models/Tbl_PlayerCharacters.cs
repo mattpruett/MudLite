@@ -15,5 +15,8 @@ namespace MattPruett.MUDLite.Data.DataModel.Models
 
         [Column("PC_US_Id", TypeName = "VARCHAR")]
         public string PC_US_Id { get; set; }
+
+        [Column("PC_RL_Key", TypeName = "INTEGER")]
+        public int PC_RL_Key { get; set; }
     }
 }
